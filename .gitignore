@@ -2,3 +2,7 @@
 *.log
 *.pdf
 *.synctex.gz
+01/*.aux
+01/*.log
+01/*.pdf
+01/*.synctex.gz
