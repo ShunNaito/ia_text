@@ -24,7 +24,7 @@
 %% header and footer
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\lhead{2014年度 春学期授業}
+\lhead{2015年度 春学期授業}
 \chead{インタラクティブ・アート実習}
 \rhead{担当教員: 松下 光範}
 \cfoot{\thepage}
@@ -68,8 +68,12 @@
 
 % title
 \section*{\LARGE{第2講 プログラミングでLEDを制御する}}
-Processing と Arduino を接続し LED を制御する。
-スイッチの ON/OFF を取得する。
+\section{本実習の目標}
+\begin{itemize}
+\item Processing と Arduino を接続し LED を制御する。
+\item Arduino の Digital Output を用いてLEDを光らせる。
+\item Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -80,21 +84,48 @@ Processing と Arduino を接続し LED を制御する。
 本来、Arduino と Processing を連携させるためには、シリアル通信を用いますが、そのためのプログラムを書くのは少し面倒です。
 実習では楽をするために、Firmata\footnote{\url{http://firmata.org}} を用います。
 
-\subsection*{Todo}
-\begin{itemize}
- \item Arduino IDE のインストール
- \item Arduino ドライバのインストール
- \item Arduino に Firmata を書き込む
- \item Processing に Arduino ライブラリをインストール       
- \item 動作確認
-\end{itemize}
-
+%\subsection*{Todo}
+%\begin{itemize}
+% \item Processing に Arduino ライブラリをインストール       
+% \item 動作確認
+%\end{itemize}
 
 \section{Processing から Arduino を制御する}
 今回は Arduino の Digital Output を用いて LED の制御したり、
 Digital Input を用いてスイッチの ON/OFF を取得したりします。
 
 まず、Processing から Arduino を用いるための準備をしましょう。
+\section{Processing + Firmataをつかってみる: シリアルポートの確認}
+ProcessingからArduinoにインストールしたFirmataを操作するには、使用しているシリアルポートの環境を知る必要があります。まず、下記のコードをProcessingに入力してください。
+\begin{lstlisting}
+import processing.serial.*;
+import cc.arduino.*;
+Arduino arduino;
+ 
+void setup() {
+  println(Arduino.list());
+}
+\end{lstlisting}
+すると、Processingの下部のコンソールに以下のようなメッセージが表示されるはずです。
+%コンソールのメッセージ%
+\begin{lstlisting}
+/dev/cu.Bluetooth-Incoming-Port
+/dev/cu.Bluetooth-Modem
+/dev/cu.usbmodem1421
+/dev/tty.Bluetooth-Incoming-Port
+/dev/tty.Bluetooth-Modem
+/dev/tty.usbmodem1421
+\end{lstlisting}
+次に、「/dev/...」から始まる記述に対して、それぞれ順番に0から番号を付与します。
+\begin{lstlisting}
+[0] /dev/cu.Bluetooth-Incoming-Port
+[1] /dev/cu.Bluetooth-Modem
+[2] /dev/cu.usbmodem1421
+[3] /dev/tty.Bluetooth-Incoming-Port
+[4] /dev/tty.Bluetooth-Modem
+[5] /dev/tty.usbmodem1421
+\end{lstlisting}
+この中から、「/dev/tty.usbserial…」もしくは「/dev/tty.usbmodem…」から始まる記述の番号 (上記の例では5番) をメモしておいてください。
 \begin{lstlisting}
  import processing.serial.*;
  import cc.arduino.*;
@@ -104,20 +135,47 @@ Digital Input を用いてスイッチの ON/OFF を取得したりします。
  void setup() {
    // Arduino の初期化
    // シリアルポートの指定など
-   // Arduino.list()[0] は環境によって変える
-   arduino = new Arduino(this, Arduino.list()[0], 57600);
+   // Arduino.list()[5] は環境によって変える
+   arduino = new Arduino(this, Arduino.list()[5], 57600);
  }
 \end{lstlisting}
 Arduino を使うためにはシリアルポートの指定をしなければなりません。
-Windows ならデバイスマネージャから確認することができます。
-Arduino.list()[0] のところを各自変更してください。
+Arduino.list()[5] の部分の数字 (5の部分) を先ほどメモした番号に変更してください。
+%Arduino のツール→シリアルポートからから確認することもできます。
+
+%Auduinoを起動し、下の画像のように、メニューバーにあるツール→シリアルポートを選択して、/dev/tty.usbmodem~から始まる番号をメモしておいてください。
 
 これらの命令は今後も Arduino を用いる際に必ず使うので忘れないように。
 
+\section{Digital Output}
+では、まず簡単なプログラムで動作を確認してみましょう。LEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
+
+\subsubsection*{プログラムを書く}
+LED が点灯するプログラムを書きましょう。
+\begin{lstlisting}
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int ledPin = 13; // LED を接続したピンの番号
+ 
+void setup() {
+  arduino = new Arduino(this, Arduino.list()[0], 57600);
+
+  // Arduino のピンモードを設定
+  // ここでは 13 番ピンを Output 用に設定
+  arduino.pinMode(ledPin, Arduino.OUTPUT);
+}
+ 
+void draw() {
+  // Arduino の 13 番ピンを HIGH (5V) に
+  arduino.digitalWrite(ledPin, Arduino.HIGH);
+}
+\end{lstlisting}
+これで LED が点灯するはずです。
 
 \subsection*{LED を点滅させる}
 Digital Output を使って LED を点滅させてみましょう。
-
 \subsubsection*{回路を組む}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
@@ -172,7 +230,46 @@ void draw() {
 \end{lstlisting}
 これで LED が点滅するはずです。
 
+\subsection{Processing + Firmataをつかってみる 1: Digital OUT \\UTF{2013} LEDを点灯}
+Processingの画面でマウスを押すとLEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
 
+\begin{lstlisting}
+/*
+ * Arduino - Processingシリアル通信
+ * Firmataを使用したサンプル
+ * Processing側
+ */
+ 
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int ledPin = 13;
+color bgColor = color(0);
+ 
+void setup() {
+  size(400, 200);
+  arduino = new Arduino(this, Arduino.list()[4], 57600);
+  arduino.pinMode(ledPin, Arduino.OUTPUT);
+}
+ 
+void draw() {
+  background(bgColor);
+}
+ 
+void mousePressed() {
+  arduino.digitalWrite(ledPin, Arduino.HIGH);
+  bgColor = color(255,0,0);
+}
+ 
+void mouseReleased() {
+  arduino.digitalWrite(ledPin, Arduino.LOW);
+  bgColor = color(0);
+}
+\end{lstlisting}
+画面をクリックすると、LEDが点灯するはずです。
+
+\subsection*{Digital Input}
 \subsection*{スイッチの ON/OFF を読み取る}
 Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 
@@ -183,13 +280,13 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
   \centering
-  \includegraphics[width=0.7\columnwidth]{img/pulldown.eps}
+  \includegraphics[width=0.7\columnwidth]{img/pullup.eps}
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
-  \includegraphics[width=0.7\columnwidth]{img/pullup.eps}
+  \includegraphics[width=0.7\columnwidth]{img/pulldown.eps}
  \end{minipage}
-  \caption{プルダウン抵抗 (左) とプルアップ抵抗 (右)}
+  \caption{プルアップ抵抗 (左) とプルダウン抵抗 (右)}
 \end{figure}
 
 
@@ -218,16 +315,16 @@ void draw() {
 \end{lstlisting}
 
 
-\subsection*{スイッチを押すと LED が点灯するようにする}
-スイッチの入力を Processing で取得し、それに基づいて LED を制御しましょう。
-上 2 つの合わせ技です。
+%\subsection*{スイッチを押すと LED が点灯するようにする}
+%スイッチの入力を Processing で取得し、それに基づいて LED を制御しましょう。
+%上 2 つの合わせ技です。
 
-これで入力と出力の両方が実現できるようになります。
-次回以降の実習でも入力や出力のための部品が変わるだけで基本的な考え方は同じです。
+%これで入力と出力の両方が実現できるようになります。
+%次回以降の実習でも入力や出力のための部品が変わるだけで基本的な考え方は同じです。
 
 
-\subsubsection*{TRY}
-今回やったことを思い出しながら、回路とプログラムを作成してみましょう。
+%\subsubsection*{TRY}
+%今回やったことを思い出しながら、回路とプログラムを作成してみましょう。
 
 % \subsubsection*{プログラムを書く}
 % \begin{lstlisting}
