@@ -70,7 +70,8 @@
 \section*{\LARGE{第2講 プログラミングでLEDを制御する}}
 \section{本実習の目標}
 \begin{itemize}
-\item Processing と Arduino を接続し LED を制御する。
+\item Processing に Arduino (Firmata) をインストールする。
+\item Processing から Arduino を制御するためのシリアルポートを把握する。
 \item Arduino の Digital Output を用いてLEDを光らせる。
 \item Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 \end{itemize}
@@ -95,7 +96,7 @@
 Digital Input を用いてスイッチの ON/OFF を取得したりします。
 
 まず、Processing から Arduino を用いるための準備をしましょう。
-\section{Processing + Firmataをつかってみる: シリアルポートの確認}
+\subsection*{シリアルポートの確認}
 ProcessingからArduinoにインストールしたFirmataを操作するには、使用しているシリアルポートの環境を知る必要があります。まず、下記のコードをProcessingに入力してください。
 \begin{lstlisting}
 import processing.serial.*;
@@ -126,6 +127,8 @@ void setup() {
 [5] /dev/tty.usbmodem1421
 \end{lstlisting}
 この中から、「/dev/tty.usbserial…」もしくは「/dev/tty.usbmodem…」から始まる記述の番号 (上記の例では5番) をメモしておいてください。
+Arduino を使うためにはシリアルポートの指定をしなければなりません。
+続いて、下記のコードのArduino.list()[5] の部分の数字を先ほどメモした番号に変更し、Processingに入力してください。
 \begin{lstlisting}
  import processing.serial.*;
  import cc.arduino.*;
@@ -139,43 +142,23 @@ void setup() {
    arduino = new Arduino(this, Arduino.list()[5], 57600);
  }
 \end{lstlisting}
-Arduino を使うためにはシリアルポートの指定をしなければなりません。
-Arduino.list()[5] の部分の数字 (5の部分) を先ほどメモした番号に変更してください。
+すると、Processingの下部のコンソールに以下のようなメッセージが表示されるはずです。
+%コンソールのメッセージ%
+\begin{lstlisting}
+/dev/tty.usbmodem1421
+\end{lstlisting}
 %Arduino のツール→シリアルポートからから確認することもできます。
 
 %Auduinoを起動し、下の画像のように、メニューバーにあるツール→シリアルポートを選択して、/dev/tty.usbmodem~から始まる番号をメモしておいてください。
-
-これらの命令は今後も Arduino を用いる際に必ず使うので忘れないように。
+これで Processing から Arduino を制御するためのシリアルポートを知ることができます。
+これらの命令は今後も Arduino を用いる際に必ず使うので忘れないようにしてください。
 
 \section{Digital Output}
 では、まず簡単なプログラムで動作を確認してみましょう。LEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
 
-\subsubsection*{プログラムを書く}
-LED が点灯するプログラムを書きましょう。
-\begin{lstlisting}
-import processing.serial.*;
-import cc.arduino.*;
- 
-Arduino arduino;
-int ledPin = 13; // LED を接続したピンの番号
- 
-void setup() {
-  arduino = new Arduino(this, Arduino.list()[0], 57600);
+\subsection*{LED を点灯させる}
+Digital Output を使って LED を点灯させてみましょう。
 
-  // Arduino のピンモードを設定
-  // ここでは 13 番ピンを Output 用に設定
-  arduino.pinMode(ledPin, Arduino.OUTPUT);
-}
- 
-void draw() {
-  // Arduino の 13 番ピンを HIGH (5V) に
-  arduino.digitalWrite(ledPin, Arduino.HIGH);
-}
-\end{lstlisting}
-これで LED が点灯するはずです。
-
-\subsection*{LED を点滅させる}
-Digital Output を使って LED を点滅させてみましょう。
 \subsubsection*{回路を組む}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
@@ -202,6 +185,33 @@ Digital Output を使って LED を点滅させてみましょう。
 \end{figure}
 
 \subsubsection*{プログラムを書く}
+LED が点灯するプログラムを書きましょう。
+\begin{lstlisting}
+import processing.serial.*;
+import cc.arduino.*;
+ 
+Arduino arduino;
+int ledPin = 13; // LED を接続したピンの番号
+ 
+void setup() {
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
+
+  // Arduino のピンモードを設定
+  // ここでは 13 番ピンを Output 用に設定
+  arduino.pinMode(ledPin, Arduino.OUTPUT);
+}
+ 
+void draw() {
+  // Arduino の 13 番ピンを HIGH (5V) に
+  arduino.digitalWrite(ledPin, Arduino.HIGH);
+}
+\end{lstlisting}
+これで LED が点灯するはずです。
+
+\subsection*{LED を点滅させる}
+Digital Output を使って LED を点滅させてみましょう。
+
+\subsubsection*{プログラムを書く}
 LED を接続したピンの電圧を制御するプログラムを書きましょう。
 \begin{lstlisting}
 import processing.serial.*;
@@ -211,7 +221,7 @@ Arduino arduino;
 int ledPin = 13; // LED を接続したピンの番号
  
 void setup() {
-  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
 
   // Arduino のピンモードを設定
   // ここでは 13 番ピンを Output 用に設定
@@ -230,7 +240,7 @@ void draw() {
 \end{lstlisting}
 これで LED が点滅するはずです。
 
-\subsection{Processing + Firmataをつかってみる 1: Digital OUT \\UTF{2013} LEDを点灯}
+\subsection*{Processingの入力に応じてLEDを点灯}
 Processingの画面でマウスを押すとLEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
 
 \begin{lstlisting}
@@ -249,7 +259,7 @@ color bgColor = color(0);
  
 void setup() {
   size(400, 200);
-  arduino = new Arduino(this, Arduino.list()[4], 57600);
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
   arduino.pinMode(ledPin, Arduino.OUTPUT);
 }
  
@@ -300,7 +310,7 @@ int switchPin = 8; // スイッチを接続したピンの番号
  
 void setup() {
   size(400, 300);
-  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
   arduino.pinMode(switchPin, Arduino.INPUT); // ピンモードを Input に
 }
  
