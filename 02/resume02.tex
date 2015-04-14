@@ -148,7 +148,7 @@ void setup() {
   println(Arduino.list());
 }
 \end{lstlisting}
-すると、Processingの下部のコンソールに以下のようなメッセージが表示されるはずです。
+すると、Processingの下部のコンソールに以下のようなメッセージが表示されます。
 %コンソールのメッセージ%
 \begin{lstlisting}
 /dev/cu.Bluetooth-Incoming-Port
@@ -167,7 +167,7 @@ void setup() {
 [4] /dev/tty.Bluetooth-Modem
 [5] /dev/tty.usbmodem1421
 \end{lstlisting}
-この中から、「/dev/tty.usbserial…」もしくは「/dev/tty.usbmodem…」から始まる記述の番号 (上記の例では5番) をメモしておいてください。
+この中から、「/dev/tty.usbmodem…」もしくは「/dev/tty.usbserial…」から始まる記述の番号 (上記の例では5番) をメモしておいてください。
 Arduino を使うためにはシリアルポートの指定をしなければなりません。
 続いて、下記のコードのArduino.list()[5] の部分の数字を先ほどメモした番号に変更し、Processingに入力してください。
 \begin{lstlisting}
@@ -183,7 +183,7 @@ Arduino を使うためにはシリアルポートの指定をしなければな
    arduino = new Arduino(this, Arduino.list()[5], 57600);
  }
 \end{lstlisting}
-すると、Processingの下部のコンソールに以下のようなメッセージが表示されるはずです。
+すると、Processingの下部のコンソールに以下のようなメッセージが表示されます。
 %コンソールのメッセージ%
 \begin{lstlisting}
 /dev/tty.usbmodem1421
@@ -200,7 +200,7 @@ Arduino を使うためにはシリアルポートの指定をしなければな
 \subsection{LED を点灯させる}
 Digital Output を使って LED を点灯させてみましょう。
 
-\subsubsection*{回路を組む}
+\subsubsection*{回路}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
   LED を接続したピンに電圧をかけると LED が点灯する回路を作りましょう。
@@ -225,8 +225,7 @@ Digital Output を使って LED を点灯させてみましょう。
  \end{minipage}
 \end{figure}
 
-\subsubsection*{プログラムを書く}
-LED が点灯するプログラムを書きましょう。
+\subsubsection*{プログラム}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -247,13 +246,11 @@ void draw() {
   arduino.digitalWrite(ledPin, Arduino.HIGH);
 }
 \end{lstlisting}
-これで LED が点灯するはずです。
 
 \subsection{LED を点滅させる}
 Digital Output を使って LED を点滅させてみましょう。
 
-\subsubsection*{プログラムを書く}
-LED を接続したピンの電圧を制御するプログラムを書きましょう。
+\subsubsection*{プログラム}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -279,20 +276,24 @@ void draw() {
   delay(500);
 }
 \end{lstlisting}
-これで LED が点滅するはずです。
 
-\subsection{Processingの入力に応じてLEDを点灯}
+\subsection{Processingの入力に応じてLEDを点灯させる}
 Processingの画面上でマウスを押すとLEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
 
-\subsubsection*{プログラムを書く}
-Processingの画面上でマウスを押すとLEDが点灯するプログラムを書きましょう。
+\subsection*{mousePressed}
+mousePressed 変数はマウスが押されているか押されていないかによって、それぞれ true と false に値が変わります。
+これを用いると、「マウスがクリックされたときに何かをする」という動作が実現できます。
+
 \begin{lstlisting}
-/*
- * Arduino - Processingシリアル通信
- * Firmataを使用したサンプル
- * Processing側
- */
- 
+ if (mousePressed) {
+   // マウスが押されているときの処理
+ } else {
+   // マウスが押されていないときの処理
+ }
+\end{lstlisting}
+
+\subsubsection*{プログラム}
+\begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
  
@@ -307,26 +308,25 @@ void setup() {
 }
  
 void draw() {
+  if (mousePressed) {
+    arduino.digitalWrite(ledPin, Arduino.HIGH);
+    bgColor = color(255,0,0);
+  }else{
+    arduino.digitalWrite(ledPin, Arduino.LOW);
+    bgColor = color(0);
+  }
   background(bgColor);
 }
- 
-void mousePressed() {
-  arduino.digitalWrite(ledPin, Arduino.HIGH);
-  bgColor = color(255,0,0);
-}
- 
-void mouseReleased() {
-  arduino.digitalWrite(ledPin, Arduino.LOW);
-  bgColor = color(0);
-}
 \end{lstlisting}
-画面をクリックすると、LEDが点灯するはずです。
+画面をクリックすると、LEDが点灯します。
+
+\newpage
 
 \section{Digital Input}
 \subsection{スイッチの ON/OFF を読み取る}
 Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 
-\subsubsection*{回路を組む}
+\subsubsection*{回路}
 デジタル回路の場合、入力端子がどこにも接続されていないような状態 (オープン) が起こると、電圧が High または Low に定まらず誤動作の原因になります。
 そのため、回路を安定させるためにプルアップ抵抗/プルダウン抵抗と呼ばれる抵抗を用います。
 
@@ -343,7 +343,7 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 \end{figure}
 
 
-\subsubsection*{プログラムを書く}
+\subsubsection*{プログラム}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
