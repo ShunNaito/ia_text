@@ -80,6 +80,7 @@
 
 
 \section{Arduino の準備}
+まず、Processing から Arduino を用いるための準備をしましょう。
 本実習ではスイッチやセンサ、LED などを PC から制御するために Arduino\footnote{\url{http://arduino.cc}} というマイコンを用います。
 
 本来、Arduino と Processing を連携させるためには、シリアル通信を用いますが、そのためのプログラムを書くのは少し面倒です。
@@ -91,12 +92,9 @@
 % \item 動作確認
 %\end{itemize}
 
-\section{Processing から Arduino を制御する}
-今回は Arduino の Digital Output を用いて LED の制御したり、
-Digital Input を用いてスイッチの ON/OFF を取得したりします。
-
-まず、Processing から Arduino を用いるための準備をしましょう。
-\subsection*{シリアルポートの確認}
+%まず、Processing から Arduino を用いるための準備をしましょう。
+%Arduino の Digital Output を用いて LED を制御する。Digital Input を用いてスイッチの ON/OFF を取得する。
+\section{シリアルポートの確認}
 ProcessingからArduinoにインストールしたFirmataを操作するには、使用しているシリアルポートの環境を知る必要があります。まず、下記のコードをProcessingに入力してください。
 \begin{lstlisting}
 import processing.serial.*;
@@ -156,7 +154,7 @@ Arduino を使うためにはシリアルポートの指定をしなければな
 \section{Digital Output}
 では、まず簡単なプログラムで動作を確認してみましょう。LEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
 
-\subsection*{LED を点灯させる}
+\subsection{LED を点灯させる}
 Digital Output を使って LED を点灯させてみましょう。
 
 \subsubsection*{回路を組む}
@@ -208,7 +206,7 @@ void draw() {
 \end{lstlisting}
 これで LED が点灯するはずです。
 
-\subsection*{LED を点滅させる}
+\subsection{LED を点滅させる}
 Digital Output を使って LED を点滅させてみましょう。
 
 \subsubsection*{プログラムを書く}
@@ -240,9 +238,11 @@ void draw() {
 \end{lstlisting}
 これで LED が点滅するはずです。
 
-\subsection*{Processingの入力に応じてLEDを点灯}
-Processingの画面でマウスを押すとLEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
+\subsection{Processingの入力に応じてLEDを点灯}
+Processingの画面上でマウスを押すとLEDが点灯するプログラムを作成してみましょう。Arduino側は、Digital Outの13番にLEDを接続しておきます。
 
+\subsubsection*{プログラムを書く}
+Processingの画面上でマウスを押すとLEDが点灯するプログラムを書きましょう。
 \begin{lstlisting}
 /*
  * Arduino - Processingシリアル通信
@@ -279,7 +279,7 @@ void mouseReleased() {
 \end{lstlisting}
 画面をクリックすると、LEDが点灯するはずです。
 
-\subsection*{Digital Input}
+\section{Digital Input}
 \subsection*{スイッチの ON/OFF を読み取る}
 Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
 
