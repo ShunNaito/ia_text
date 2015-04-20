@@ -129,6 +129,27 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 \subsection*{プルアップ/プルダウン抵抗}
 デジタル回路の場合、入力端子がどこにも接続されていないような状態 (オープン) が起こると、電圧が High または Low に定まらず誤動作の原因になります。
 そのため、回路を安定させるためにプルアップ抵抗/プルダウン抵抗と呼ばれる抵抗を用います。
+\newline
+
+例えスイッチはOFFの状態でも、静電気や電磁誘導によって、電流が生じてしまう。
+マイコンの入力信号がHigh(5V)かLow(0V)かを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
+\newline
+
+\subsection*{プルアップ抵抗 → GND側に抵抗があり、ボタンを押すとLowになる。}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.3\columnwidth]{img/pulldown.eps}
+%  \caption{}
+  \label{figure:LED}
+\end{figure}
+ 
+\subsection*{プルダウン抵抗 → 5V側に抵抗があり、ボタンを押すとHighになる。}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.3\columnwidth]{img/pullup.eps}
+%  \caption{}
+  \label{figure:LED}
+\end{figure}
 
 \subsubsection{回路を組む}
 \begin{figure}[h!]
@@ -174,7 +195,7 @@ void draw() {
 これで入力と出力の両方が実現できるようになります。
 次回以降の実習でも入力や出力のための部品が変わるだけで基本的な考え方は同じです。
 
-\subsection*{TRY}前
-回と今回やったことを思い出しながら、回路とプログラムを作成してみましょう。
+\subsection*{TRY}
+前回と今回やったことを思い出しながら、回路とプログラムを作成してみましょう。
 \end{document}
 
