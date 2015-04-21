@@ -128,45 +128,50 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 
 \subsection*{プルアップ/プルダウン抵抗}
 デジタル回路の場合、入力端子がどこにも接続されていないような状態 (オープン) が起こると、電圧が High(5V) または Low(0V) に定まらず誤動作の原因になります。
-マイコンの入力信号がHighかLowかを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
+そのため、マイコンの入力信号がHighかLowかを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
 
 %例えスイッチはOFFの状態でも、静電気や電磁誘導によって、電流が生じてしまう。
 %マイコンの入力信号がHigh(5V)かLow(0V)かを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
 
-\subsection*{プルアップ抵抗 → GND側に抵抗があり、ボタンを押すとLowになる。}
+\subsubsection{回路を組む}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
-  LED を接続したピンに電圧をかけると LED が点灯する回路を作りましょう。
-  \begin{itemize}
-   \item \textbf{ポイント}
-	 \begin{itemize}
-	  \item 5V → LED → 抵抗 → GND の順に
-	  \item LED には極性があるので向きに注意
-	 \end{itemize}
-  \end{itemize}
+  \centering
+  \includegraphics[width=0.7\columnwidth]{img/pullup.eps}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=0.7\columnwidth]{img/pulldown.eps}
+ \end{minipage}
+  \caption{プルアップ抵抗 (左) とプルダウン抵抗 (右)}
+\end{figure}
+
+\subsection*{プルアップ抵抗}
+\begin{figure}[htbp]
+ \begin{minipage}{0.5\columnwidth}
+ 図\ref{fig:pullupSwitchOff}を見ると、5V側に抵抗が付いています。これをプルアップ抵抗と言います。
+ 
+ スイッチが押されていない時は、図○の様に抵抗を通してデジタル入力につながるので5Vになり、arduinoではHIGHで読み取られます。
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
   \includegraphics[width=80mm]{img/pullup_off.eps}
-  \caption{プルアップ抵抗OFF状態}
+  \caption{プルアップ回路 (スイッチが押されていない時) }
+  \label{fig:pullupSwitchOff}
  \end{minipage}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
  \begin{minipage}{0.5\columnwidth}
-  LED を接続したピンに電圧をかけると LED が点灯する回路を作りましょう。
-  \begin{itemize}
-   \item \textbf{ポイント}
-	 \begin{itemize}
-	  \item 5V → LED → 抵抗 → GND の順に
-	  \item LED には極性があるので向きに注意
-	 \end{itemize}
-  \end{itemize}
+  スイッチが押された場合は、図\ref{fig:pullupSwitchOn}の様にスイッチを通してGNDとつながるので0Vになります。
+  
+  電流は青い線のように流れ、デジタル入力側には流れないので0Vになり、arduinoではLOWで読み取られます。
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
   \includegraphics[width=80mm]{img/pullup_on.eps}
-  \caption{プルアップ抵抗ON状態}
+  \caption{プルアップ回路 (スイッチが押されている時}
+  \label{fig:pullupSwitchOn}
  \end{minipage}
 \end{figure}
 
@@ -183,22 +188,17 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 %\end{figure}
 
  
-\subsection*{プルダウン抵抗 → 5V側に抵抗があり、ボタンを押すとHighになる。}
+\subsection*{プルダウン抵抗}
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
-  LED を接続したピンに電圧をかけると LED が点灯する回路を作りましょう。
-  \begin{itemize}
-   \item \textbf{ポイント}
-	 \begin{itemize}
-	  \item 5V → LED → 抵抗 → GND の順に
-	  \item LED には極性があるので向きに注意
-	 \end{itemize}
-  \end{itemize}
+ 図\ref{fig:pulldownSwitchOff}を見ると、GND側に抵抗が付いています。これをプルダウン抵抗と言います。
+ スイッチが押されていない時は、
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
   \includegraphics[width=80mm]{img/pulldown_off.eps}
   \caption{プルダウン抵抗OFF状態}
+  \label{fig:pulldownSwitchOff}
  \end{minipage}
 \end{figure}
 
@@ -231,19 +231,6 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
  %\end{minipage}
  % \caption{プルダウン抵抗ON (左) OFF (右)}
 %\end{figure}
-
-\subsubsection{回路を組む}
-\begin{figure}[h!]
- \begin{minipage}{0.5\columnwidth}
-  \centering
-  \includegraphics[width=0.7\columnwidth]{img/pulldown.eps}
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
-  \centering
-  \includegraphics[width=0.7\columnwidth]{img/pullup.eps}
- \end{minipage}
-  \caption{プルダウン抵抗 (左) とプルアップ抵抗 (右)}
-\end{figure}
 
 \subsubsection{プログラムを書く}
 \begin{lstlisting}
