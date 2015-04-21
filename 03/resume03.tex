@@ -24,7 +24,7 @@
 %% header and footer
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\lhead{2014年度 春学期授業}
+\lhead{2015年度 春学期授業}
 \chead{インタラクティブ・アート実習}
 \rhead{担当教員: 松下 光範}
 \cfoot{\thepage}
@@ -68,7 +68,11 @@
 
 % title
 \section*{\LARGE{第3講 スイッチの ON/OFF を取得する}}
-Digital Input を用いてスイッチの ON/OFF を取得する。
+\section{本実習の目標}
+\begin{itemize}
+ \item Arduino の Digital Input を用いてスイッチの ON/OFF を取得する。
+ \item Arduino の Digital Input とDigital Output を用いてスイッチの ON/OFF に応じてLEDを光らせる。
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -125,35 +129,30 @@ void draw() {
 ここからが本題です。
 Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみましょう。
 
-
 \subsection*{プルアップ/プルダウン抵抗}
-デジタル回路の場合、入力端子がどこにも接続されていないような状態 (オープン) が起こると、電圧が High(5V) または Low(0V) に定まらず誤動作の原因になります。
+デジタル回路の場合、入力端子がどこにも接続されていないような状態 (オープン) が起こると、電圧が High (5V) または Low (0V) に定まらず誤動作の原因になります。
 そのため、マイコンの入力信号がHighかLowかを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
 
 %例えスイッチはOFFの状態でも、静電気や電磁誘導によって、電流が生じてしまう。
 %マイコンの入力信号がHigh(5V)かLow(0V)かを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
 
 \subsection{プルアップ抵抗}
- 図\ref{fig:pullupSwitchOff}を見ると、5V側に抵抗が付いています。これをプルアップ抵抗と言います。
+図\ref{fig:pullup}を見ると、5V側に抵抗が付いています。これをプルアップ抵抗と言います。
  
- スイッチが押されていない時は、図\ref{fig:pullupSwitchOff}の様に抵抗を通してデジタル入力につながるので5Vになり、arduinoではHIGHで読み取られます。
- 
- \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.6\columnwidth]{img/pullup_off.eps}
-  \caption{プルアップ回路 (スイッチが押されていない時) }
-  \label{fig:pullupSwitchOff}
-\end{figure}
+スイッチが押されていない時、Arduinoは図\ref{fig:pullup} (左) のように抵抗を通して5VとつながるのでHIGH (5V) になります。
 
-スイッチが押された場合は、図\ref{fig:pullupSwitchOn}の様にスイッチを通してGNDとつながるので0Vになります。
-  
-電流は青い線のように流れ、デジタル入力側には流れないので0Vになり、arduinoではLOWで読み取られます。
+スイッチが押されている時、Arduinoは図\ref{fig:pullup} (右) のようにスイッチを通してGNDとつながるのでLOW (0V) になります。電流は青い線のように流れ、Arduinoには流れません。
 
- \begin{figure}[htbp]
+\begin{figure}[htbp]
+ \begin{minipage}{0.5\columnwidth}
   \centering
-  \includegraphics[width=0.6\columnwidth]{img/pullup_on.eps}
-  \caption{プルアップ回路 (スイッチが押されていない時) }
-  \label{fig:pullupSwitchOn}
+  \includegraphics[width=0.9\columnwidth]{img/pullup_off.eps}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \includegraphics[width=0.9\columnwidth]{img/pullup_on.eps}
+ \end{minipage}
+ \caption{プルアップ回路 スイッチOFF時 (左) とON時 (右)  }
+ \label{fig:pullup}
 \end{figure}
 
 %\begin{figure}[h!]
@@ -170,26 +169,22 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 
  
 \subsection{プルダウン抵抗}
- 図\ref{fig:pulldownSwitchOff}を見ると、GND側に抵抗が付いています。これをプルダウン抵抗と言います。
- スイッチが押されていない時は、図\ref{fig:pulldownSwitchOff}のように抵抗を通してデジタル入力はGNDとつながるので0Vになり、arduinoではLOWで読み取られます。
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.6\columnwidth]{img/pulldown_off.eps}
-  \caption{プルダウン回路 (スイッチが押されていない時) }
-  \label{fig:pulldownSwitchOff}
-\end{figure}
+ 図\ref{fig:pulldown}を見ると、GND側に抵抗が付いています。これをプルダウン抵抗と言います。
+ 
+ スイッチが押されていない時、Arduinoは図\ref{fig:pulldown} (左) のように抵抗を通してGNDとつながるので、LOW (0V) になります。
+ 
+ スイッチが押されている時、Arduinoは図\ref{fig:pulldown} (右) のようにスイッチを通して5Vとつながるので、HIGH (5V) になります。
 
-スイッチが押された場合は、図\ref{fig:pulldownSwitchOn}のようにスイッチを通して5Vとつながるのでデジタル入力は5Vになります。
-
-電流は青い線のように流れます。
-  
-arduinoではHIGHで読み取られます。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.6\columnwidth]{img/pulldown_on.eps}
-  \caption{プルダウン回路 (スイッチが押されている時) }
-  \label{fig:pulldownSwitchOn}
+ \begin{figure}[htbp]
+  \begin{minipage}{0.5\columnwidth}
+   \centering
+   \includegraphics[width=0.9\columnwidth]{img/pulldown_off.eps}
+  \end{minipage}
+  \begin{minipage}{0.5\columnwidth}
+   \includegraphics[width=0.9\columnwidth]{img/pulldown_on.eps}
+  \end{minipage}
+  \caption{プルダウン回路 スイッチOFF時 (左) とON時 (右)  }
+  \label{fig:pulldown}
 \end{figure}
 
 %\begin{figure}[h!]
@@ -204,7 +199,9 @@ arduinoではHIGHで読み取られます。
  % \caption{プルダウン抵抗ON (左) OFF (右)}
 %\end{figure}
 
-\subsubsection{回路を組む}
+%\newpage
+
+\subsection{回路}
 \begin{figure}[htbp]
  \begin{minipage}{0.5\columnwidth}
   \centering
@@ -217,7 +214,7 @@ arduinoではHIGHで読み取られます。
   \caption{プルアップ抵抗 (左) とプルダウン抵抗 (右)}
 \end{figure}
 
-\subsubsection{プログラムを書く}
+\subsection{プログラム}
 \begin{lstlisting}
 import processing.serial.*;
 import cc.arduino.*;
@@ -248,7 +245,14 @@ void draw() {
 これで入力と出力の両方が実現できるようになります。
 次回以降の実習でも入力や出力のための部品が変わるだけで基本的な考え方は同じです。
 
+\subsection{スイッチの ON/OFF に応じてLEDを点灯させる}
+Digital Inputと Digital Output を用いてスイッチの ON/OFF に応じてLEDを点灯させてみましょう。
+
+\subsection{スイッチを押している間だけLEDを点滅させる (上級編) }
+Digital Inputと Digital Output を用いてスイッチを押している間だけ LEDを1秒間隔で点滅させてみましょう。
+
 \subsection*{TRY}
 前回と今回やったことを思い出しながら、回路とプログラムを作成してみましょう。
+
 \end{document}
 
