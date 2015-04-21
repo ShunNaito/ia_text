@@ -133,46 +133,27 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 %例えスイッチはOFFの状態でも、静電気や電磁誘導によって、電流が生じてしまう。
 %マイコンの入力信号がHigh(5V)かLow(0V)かを確実に伝えるために、プルアップ/プルダウン抵抗が必要となります。
 
-\subsubsection{回路を組む}
-\begin{figure}[h!]
- \begin{minipage}{0.5\columnwidth}
-  \centering
-  \includegraphics[width=0.7\columnwidth]{img/pullup.eps}
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
-  \centering
-  \includegraphics[width=0.7\columnwidth]{img/pulldown.eps}
- \end{minipage}
-  \caption{プルアップ抵抗 (左) とプルダウン抵抗 (右)}
-\end{figure}
-
-\subsection*{プルアップ抵抗}
-\begin{figure}[htbp]
- \begin{minipage}{0.5\columnwidth}
+\subsection{プルアップ抵抗}
  図\ref{fig:pullupSwitchOff}を見ると、5V側に抵抗が付いています。これをプルアップ抵抗と言います。
  
  スイッチが押されていない時は、図\ref{fig:pullupSwitchOff}の様に抵抗を通してデジタル入力につながるので5Vになり、arduinoではHIGHで読み取られます。
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
+ 
+ \begin{figure}[htbp]
   \centering
-  \includegraphics[width=80mm]{img/pullup_off.eps}
+  \includegraphics[width=0.6\columnwidth]{img/pullup_off.eps}
   \caption{プルアップ回路 (スイッチが押されていない時) }
   \label{fig:pullupSwitchOff}
- \end{minipage}
 \end{figure}
 
-\begin{figure}[htbp]
- \begin{minipage}{0.5\columnwidth}
-  スイッチが押された場合は、図\ref{fig:pullupSwitchOn}の様にスイッチを通してGNDとつながるので0Vになります。
+スイッチが押された場合は、図\ref{fig:pullupSwitchOn}の様にスイッチを通してGNDとつながるので0Vになります。
   
-  電流は青い線のように流れ、デジタル入力側には流れないので0Vになり、arduinoではLOWで読み取られます。
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
+電流は青い線のように流れ、デジタル入力側には流れないので0Vになり、arduinoではLOWで読み取られます。
+
+ \begin{figure}[htbp]
   \centering
-  \includegraphics[width=80mm]{img/pullup_on.eps}
-  \caption{プルアップ回路 (スイッチが押されている時}
+  \includegraphics[width=0.6\columnwidth]{img/pullup_on.eps}
+  \caption{プルアップ回路 (スイッチが押されていない時) }
   \label{fig:pullupSwitchOn}
- \end{minipage}
 \end{figure}
 
 %\begin{figure}[h!]
@@ -188,34 +169,27 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 %\end{figure}
 
  
-\subsection*{プルダウン抵抗}
-\begin{figure}[h!]
- \begin{minipage}{0.5\columnwidth}
+\subsection{プルダウン抵抗}
  図\ref{fig:pulldownSwitchOff}を見ると、GND側に抵抗が付いています。これをプルダウン抵抗と言います。
  スイッチが押されていない時は、図\ref{fig:pulldownSwitchOff}のように抵抗を通してデジタル入力はGNDとつながるので0Vになり、arduinoではLOWで読み取られます。
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=80mm]{img/pulldown_off.eps}
-  \caption{プルダウン抵抗OFF状態}
+  \includegraphics[width=0.6\columnwidth]{img/pulldown_off.eps}
+  \caption{プルダウン回路 (スイッチが押されていない時) }
   \label{fig:pulldownSwitchOff}
- \end{minipage}
 \end{figure}
 
-\begin{figure}[h!]
- \begin{minipage}{0.5\columnwidth}
-  スイッチが押された場合は、図\ref{fig:pulldownSwitchOn}のようにスイッチを通して5Vとつながるのでデジタル入力は5Vになります。
+スイッチが押された場合は、図\ref{fig:pulldownSwitchOn}のようにスイッチを通して5Vとつながるのでデジタル入力は5Vになります。
+
+電流は青い線のように流れます。
   
-  電流は青い線のように流れます。
-  
-  arduinoではHIGHで読み取られます。
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
+arduinoではHIGHで読み取られます。
+
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=80mm]{img/pulldown_on.eps}
-  \caption{プルダウン抵抗ON状態}
+  \includegraphics[width=0.6\columnwidth]{img/pulldown_on.eps}
+  \caption{プルダウン回路 (スイッチが押されている時) }
   \label{fig:pulldownSwitchOn}
- \end{minipage}
 \end{figure}
 
 %\begin{figure}[h!]
@@ -229,6 +203,19 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
  %\end{minipage}
  % \caption{プルダウン抵抗ON (左) OFF (右)}
 %\end{figure}
+
+\subsubsection{回路を組む}
+\begin{figure}[htbp]
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=0.7\columnwidth]{img/pullup.eps}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=0.7\columnwidth]{img/pulldown.eps}
+ \end{minipage}
+  \caption{プルアップ抵抗 (左) とプルダウン抵抗 (右)}
+\end{figure}
 
 \subsubsection{プログラムを書く}
 \begin{lstlisting}
