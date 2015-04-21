@@ -151,7 +151,7 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
  \begin{minipage}{0.5\columnwidth}
  図\ref{fig:pullupSwitchOff}を見ると、5V側に抵抗が付いています。これをプルアップ抵抗と言います。
  
- スイッチが押されていない時は、図○の様に抵抗を通してデジタル入力につながるので5Vになり、arduinoではHIGHで読み取られます。
+ スイッチが押されていない時は、図\ref{fig:pullupSwitchOff}の様に抵抗を通してデジタル入力につながるので5Vになり、arduinoではHIGHで読み取られます。
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
@@ -192,7 +192,7 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
  図\ref{fig:pulldownSwitchOff}を見ると、GND側に抵抗が付いています。これをプルダウン抵抗と言います。
- スイッチが押されていない時は、
+ スイッチが押されていない時は、図\ref{fig:pulldownSwitchOff}のように抵抗を通してデジタル入力はGNDとつながるので0Vになり、arduinoではLOWで読み取られます。
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
@@ -204,19 +204,17 @@ Arduino の Digital Input を用いてスイッチの ON/OFF を取得してみ�
 
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
-  LED を接続したピンに電圧をかけると LED が点灯する回路を作りましょう。
-  \begin{itemize}
-   \item \textbf{ポイント}
-	 \begin{itemize}
-	  \item 5V → LED → 抵抗 → GND の順に
-	  \item LED には極性があるので向きに注意
-	 \end{itemize}
-  \end{itemize}
+  スイッチが押された場合は、図\ref{fig:pulldownSwitchOn}のようにスイッチを通して5Vとつながるのでデジタル入力は5Vになります。
+  
+  電流は青い線のように流れます。
+  
+  arduinoではHIGHで読み取られます。
  \end{minipage}
  \begin{minipage}{0.5\columnwidth}
   \centering
   \includegraphics[width=80mm]{img/pulldown_on.eps}
   \caption{プルダウン抵抗ON状態}
+  \label{fig:pulldownSwitchOn}
  \end{minipage}
 \end{figure}
 
