@@ -78,11 +78,10 @@
 
 \section{前回の復習}
 前回やった Digital Output の復習をしましょう。
-ですが、前回やったことをもう一度やるだけではつまらないので、ついでに Processing の新しい命令を覚えましょう。
 
 \subsection*{mousePressed}
 mousePressed 変数はマウスが押されているか押されていないかによって、それぞれ true と false に値が変わります。
-これを用いると、「マウスがクリックされたときに何かをする」という動作が実現できます。
+これを用いると、「マウスが押されているときに何かをする」という動作が実現できます。
 
 \begin{lstlisting}
  if (mousePressed) {
@@ -93,7 +92,7 @@ mousePressed 変数はマウスが押されているか押されていないか�
 \end{lstlisting}
 
 では、下のプログラムを参考にして前回の内容を思い出しながら、
-マウスをクリックしたら LED が点灯する、というプログラムを書いてみましょう。
+マウスが押されている間 LED が点灯する、というプログラムを書いてみましょう。
 
 回路は前回のままで OK です。
 
@@ -105,7 +104,7 @@ Arduino arduino;
 int ledPin = 13;
  
 void setup() {
-  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
   arduino.pinMode(ledPin, Arduino.OUTPUT);
 }
  
@@ -224,7 +223,7 @@ int switchPin = 8; // スイッチを接続したピンの番号
  
 void setup() {
   size(400, 300);
-  arduino = new Arduino(this, Arduino.list()[0], 57600);
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
   arduino.pinMode(switchPin, Arduino.INPUT); // ピンモードを Input に
 }
  
