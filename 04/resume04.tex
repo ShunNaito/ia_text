@@ -109,7 +109,14 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 \section{LED を徐々に光らせる}
 では、Analog Output を用いて実際に LED の光り方を細かく制御してみましょう。
 
+\subsection*{回路}
 第2講の Digital Output で作成した LED を光らせる回路と似ています。違いは、出力させるピンがPWMであるかどうかです。注意してください。
+\begin{figure}[h!]
+ \centering
+ \includegraphics[width=0.5\columnwidth]{img/LED_circuit.eps}
+ \caption{LEDのフェードインとフェードアウトの回路図}
+\end{figure}
+
 \subsection{LEDのフェードインとフェードアウト}
 
 \subsubsection*{サンプルプログラム}
@@ -177,13 +184,6 @@ void draw() {
   arduino.analogWrite(ledPin, mouseX);
 }
 \end{lstlisting}
-
-\subsection*{回路}
-\begin{figure}[h!]
- \centering
- \includegraphics[width=0.5\columnwidth]{img/LED_circuit.eps}
- \caption{LEDのフェードインとフェードアウトの回路図}
-\end{figure}
 
 \section{フルカラー LED}
 フルカラー LED を用いると、光の三原色をそれぞれ制御することによって、様々の色の表現が可能となります。
