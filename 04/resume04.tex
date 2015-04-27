@@ -109,6 +109,29 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 \section{LED を徐々に光らせる}
 では、Analog Output を用いて実際に LED の光り方を細かく制御してみましょう。
 
+第2講の Digital Output で作成した LED を光らせる回路と似ています。違いは、出力させるピンがPWMであるかどうかです。注意してください。
+\subsection{LEDのフェードインとフェードアウト}
+
+\subsubsection*{サンプルプログラム}
+\begin{lstlisting}
+ import processing.serial.*;
+ import cc.arduino.*;
+ 
+ Arduino arduino;
+ int ledPin = 9;   // LEDが接続されたピン番号
+
+ void setup() {
+   size(256, 256);
+   arduino = new Arduino(this, Arduino.list()[5], 57600);
+   arduino.pinMode(ledPin, Arduino.OUTPUT);
+ }
+
+void draw() {
+  // マウスのx座標をLEDの明るさにする 
+  arduino.analogWrite(ledPin, mouseX);
+}
+\end{lstlisting}
+
 \subsection*{mouseX と mouseY}
 ついでに Processing の新しい命令を覚えましょう。
 前回の実習で、マウスボタンの ON/OFF (true/false) を mousePressed 変数で取得できることを学びました。
@@ -128,7 +151,7 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
  }
 \end{lstlisting}
 
-今回は、 mouseX、mouseY の値によって LED の明るさを変化させる、ということをやってみます。
+次に、 mouseX、mouseY の値によって LED の明るさを変化させる、ということをやってみましょう。
 
 回路は前回とほとんど同じで OK ですが、接続するピンに注意してください (ledPin を自分の回路で用
 いてるピンと置き換える)。
