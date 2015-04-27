@@ -109,6 +109,15 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 \section{LED を徐々に光らせる}
 では、Analog Output を用いて実際に LED の光り方を細かく制御してみましょう。
 
+\subsection*{for文}
+繰り返し処理をしたい場合for文を用います。
+
+\begin{lstlisting}
+for(初期化式; 継続条件式; カウンタ変数の更新) {
+	文;
+}
+\end{lstlisting}
+
 \subsection*{回路}
 第2講の Digital Output で作成した LED を光らせる回路と似ています。違いは、出力させるピンがPWMであるかどうかです。注意してください。
 \begin{figure}[h!]
