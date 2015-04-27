@@ -145,7 +145,7 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 
  void setup() {
    size(256, 256);
-   arduino = new Arduino(this, Arduino.list()[6], 57600);
+   arduino = new Arduino(this, Arduino.list()[5], 57600);
    arduino.pinMode(ledPin, Arduino.OUTPUT);
  }
 
@@ -201,7 +201,7 @@ int LED_G = 11;   // LED 緑
 
 void setup() {
   size(256, 256);
-  arduino = new Arduino(this, Arduino.list()[6], 57600);
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
   //LEDのピンを出力に設定する
   arduino.pinMode(LED_R, Arduino.OUTPUT);
   arduino.pinMode(LED_B, Arduino.OUTPUT);
