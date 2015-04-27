@@ -121,21 +121,29 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 
 \subsubsection*{サンプルプログラム}
 \begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
- 
- Arduino arduino;
- int ledPin = 9;   // LEDが接続されたピン番号
+import processing.serial.*;
+import cc.arduino.*;
 
- void setup() {
-   size(256, 256);
-   arduino = new Arduino(this, Arduino.list()[5], 57600);
-   arduino.pinMode(ledPin, Arduino.OUTPUT);
- }
+Arduino arduino;
+int ledPin = 9; // LEDが接続されたピン番号
 
-void draw() {
-  // マウスのx座標をLEDの明るさにする 
-  arduino.analogWrite(ledPin, mouseX);
+void setup(){
+  arduino = new Arduino(this, Arduino.list()[5], 57600);
+  arduino.pinMode(ledPin, Arduino.OUTPUT);
+}
+
+void draw(){
+  //LEDがだんだん明るくなる
+  for(int i=0; i<255; i=i+10){
+    arduino.analogWrite(ledPin,i);
+    delay(50);
+  }
+  //LEDがだんだん暗くなる
+  for(int i=255; i>0; i=i-10){
+    arduino.analogWrite(ledPin,i);
+    delay(50);
+  }
+  
 }
 \end{lstlisting}
 
