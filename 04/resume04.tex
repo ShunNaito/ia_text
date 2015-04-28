@@ -207,7 +207,22 @@ void draw() {
 フルカラー LED の構造は単純で、内部に赤、緑、青の3つのLEDが入っていると考えれば良いです。
 そのため、単色 LED のときは光り方を制御するために 1 つの Output を用いましたが、
 フルカラー LED の場合は 3 色をそれぞれ制御する必要があるため 3 つの Analog Output を用います。
-また、端子が 4 本出ているものが多いですが、これはアノード(+)またはカソード(-)が3つ分共通になっているためで、それぞれアノードコモン、カソードコモンと呼びます。
+また、端子が 4 本出ているものが多いですが、これはアノード(+)またはカソード(-)が3つ分共通になっているためで、それぞれアノードコモン (図\ref{fullColorLEDCommonAnode&Cathode} (左) ) 、カソードコモン(図\ref{fullColorLEDCommonAnode&Cathode} (右) )と呼びます。
+
+\subsection*{回路}
+\begin{figure}[h!]
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=60mm]{img/fullColorLEDCommonAnode.eps}
+  \label{circuit}
+ \end{minipage}
+ \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=60mm]{img/fullColorLEDCommonCathode.eps}
+ \end{minipage}
+ \caption{フルカラーLEDアノードコモン (左) とカソードコモン (右) }
+  \label{fullColorLEDCommonAnode&Cathode}
+\end{figure}
 
 \begin{figure}[h!]
  \begin{minipage}{0.35\columnwidth}
