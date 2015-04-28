@@ -87,9 +87,21 @@ Digital Input/Outputを用いても取得することはできません。
 実は、Arduino においての Analog Output は実際に電圧が変化するのではなく、
 PWM (Pulse Width Modulation) と呼ばれる方式で擬似的に実現しています。
 
-PWMとは、\\
-実際、ArduinoはHigh(5V)かLow(0V)の二つの状態しかなく、中間の電圧を表現することが出来ません。しかし、HighとLowを素早く切りかえることで、中間量の電流が流れているときと同じ状態を再現することが出来ます。
+というのも、ArduinoはHigh(5V)かLow(0V)の二種類しか出力できず、中間の電圧を出力することが出来ません。
+しかし、高速でHighの時間とLowの時間を制御することで、LEDの見掛け上の明るさを調節することができます。
 \\
+
+例えば、図1のように一周期においてHighである時間が長いと、人の目にはLEDが明るく見えます。
+逆に、Highである時間が短いと、人はLEDが暗く見えます。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{img/PWM.eps}
+ \caption{PWM信号}
+  \label{figure:LED}
+\end{figure}
+
+\newpage
 
 Processing から Arduino の Analog Output を用いるためには準備として、
 \begin{lstlisting}
@@ -110,8 +122,6 @@ Digital Output のときは、Arduino.HIGH (5V) か Arduino.LOW (0V) のどち�
 Analog Output の場合は 0〜255 の値で自由に設定できます。
 これにより、緩やかに LED の明るさを変化させるといったことが可能になります。
 
-\newpage
-
 \section{LED を徐々に光らせる}
 では、Analog Output を用いて実際に LED の光り方を細かく制御してみましょう。
 
@@ -129,7 +139,7 @@ for(初期化式; 継続条件式; 再初期化式) {
 \subsubsection*{サンプルプログラム}
 \begin{lstlisting}
 size(200,200);
-noFill();
+noFill();  // 塗りつぶしなし
 
 for(int i=0; i<10; i++){
   ellipse(100,100,i*20,i*20);
