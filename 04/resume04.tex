@@ -92,7 +92,7 @@ PWM (Pulse Width Modulation) と呼ばれる方式で擬似的に実現してい
 \\
 
 例えば、図1のように一周期においてHighである時間が長いと、人の目にはLEDが明るく見えます。
-逆に、Highである時間が短いと、人はLEDが暗く見えます。
+逆に、Highである時間が短いと、人の目にはLEDが暗く見えます。
 
 \begin{figure}[htbp]
   \centering
@@ -126,6 +126,7 @@ Analog Output の場合は 0〜255 の値で自由に設定できます。
 では、Analog Output を用いて実際に LED の光り方を細かく制御してみましょう。
 
 \subsection{LEDのフェードインとフェードアウト}
+\label{subsection:LEDfade-inAndFade-out}
 
 \subsection*{for文}
 for 文はある一定の回数だけ繰り返し処理を実行したい場合に用いる文です。書式は以下の通りです。初期化式には通常の代入文を記述します。継続条件式には式が真の間、ループを続けさせるための条件式を記述します。再初期化式には「i++」や「i--」、「i = i+2」といった式を記述します。
@@ -147,7 +148,7 @@ for(int i=0; i<10; i++){
 \end{lstlisting}
 
 \subsection*{回路}
-第2講の Digital Output で作成した LED を光らせる回路と似ています。違いは、出力させるピンがPWMであるかどうかです。注意してください。
+第2講の Digital Output で作成した LED を光らせる回路と似ています。違いは、出力させるピンがPWMであるかどうかです。接続するピンに注意してください。PWM を用いる場合は、番号の前に ''$\sim$'' が付いているピン ($\sim9$ とか) を用いてください。
 \begin{figure}[h!]
  \centering
  \includegraphics[width=0.5\columnwidth]{img/LED_circuit.eps}
@@ -178,10 +179,10 @@ void draw(){
     arduino.analogWrite(ledPin,i);
     delay(50);
   }
-  
 }
 \end{lstlisting}
 
+\subsection{マウスポインタに応じて LED を制御する}
 \subsection*{mouseX と mouseY}
 ついでに Processing の新しい命令を覚えましょう。
 前回の実習で、マウスボタンの ON/OFF (true/false) を mousePressed 変数で取得できることを学びました。
@@ -203,9 +204,10 @@ void draw(){
 
 次に、 mouseX、mouseY の値によって LED の明るさを変化させる、ということをやってみましょう。
 
-回路は前回とほとんど同じで OK ですが、接続するピンに注意してください (ledPin を自分の回路で用
-いてるピンと置き換える)。
-また、PWM を用いる場合は、番号の前に ''$\sim$'' が付いているピン ($\sim9$ とか) を用いてください。こちらにも注意してください！
+%回路は前回とほとんど同じで OK ですが、接続するピンに注意してください (ledPin を自分の回路で用いてるピンと置き換える)。
+%また、PWM を用いる場合は、番号の前に ''$\sim$'' が付いているピン ($\sim9$ とか) を用いてください。こちらにも注意してください！
+
+回路は先ほど\ref{subsection:LEDfade-inAndFade-out}節で作成したLEDのフェードインとフェードアウトの回路と同じです。
 
 
 \subsection*{プログラム}
@@ -235,7 +237,8 @@ void draw() {
 フルカラー LED の場合は 3 色をそれぞれ制御する必要があるため 3 つの Analog Output を用います。
 また、端子が 4 本出ているものが多いですが、これはアノード(+)またはカソード(-)が3つ分共通になっているためで、それぞれアノードコモン (図\ref{fullColorLEDCommonAnode&Cathode} (左) ) 、カソードコモン(図\ref{fullColorLEDCommonAnode&Cathode} (右) )と呼びます。
 
-\subsection*{回路}
+%\newpage
+
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
   \centering
