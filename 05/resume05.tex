@@ -211,7 +211,36 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
  }
 \end{lstlisting}
 
-\newpage
+%\newpage
+
+\section{Processingで画像を表示する}
+Processingでは、矩形や円などの単純な図形と同様に画像を表示することができます。
+画像を表示するにはまず、画像を読み込む必要があります。
+
+準備として、data フォルダに使いたい画像ファイルをコピーしてください。
+わざわざ data フォルダを開かなくても、Processing のウィンドウにドラッグ\&ドロップすると勝手にコピーされます。
+
+\begin{lstlisting}
+ PImage img;
+ 
+ void setup() {
+   size(400, 400);
+
+   img = loadImage('hogehoge.jpg'); // 使いたい画像ファイルの名前を指定
+ }
+
+ void draw() {
+   background(255);
+
+   // 画像を表示
+   // PImage、x座標、y座標を指定
+   image(img, mouseX, mouseY);
+
+   // 幅と高さを指定するとリサイズしてくれる
+   image(img, 0, 0, 120, 90);
+ }
+\end{lstlisting}
+
 
 \section{圧力センサを使う}
 圧力センサとは、感圧面に加重することにより抵抗値が変化するセンサです。
@@ -228,6 +257,12 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
  \item フィルム部分を曲げすぎないように
 \end{itemize}
 
+\subsubsection*{回路}
+先ほど\ref{subsection:getLightSensor}節で作成した回路とほとんど同じです。光センサを圧力センサに変えるだけです。
+
+\subsubsection*{プログラム}
+%アナログの入力に応じて画像のサイズが変化するプログラム
+%芦田
 
 \section{曲げセンサを使う}
 曲げセンサとは、センサ本体を曲げることにより抵抗値が変化するセンサです。
