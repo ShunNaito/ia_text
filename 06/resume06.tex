@@ -248,35 +248,6 @@ void draw() {
 \newpage
 
 \section*{付録}
-\subsection*{Processingで画像を表示する}
-Processingでは、矩形や円などの単純な図形と同様に画像を表示することができます。
-画像を表示するにはまず、画像を読み込む必要があります。
-
-準備として、data フォルダに使いたい画像ファイルをコピーしてください。
-わざわざ data フォルダを開かなくても、Processing のウィンドウにドラッグ\&ドロップすると勝手にコピーされます。
-
-\begin{lstlisting}
- PImage img;
- 
- void setup() {
-   size(400, 400);
-
-   img = loadImage('hogehoge.jpg'); // 使いたい画像ファイルの名前を指定
- }
-
- void draw() {
-   background(255);
-
-   // 画像を表示
-   // PImage、x座標、y座標を指定
-   image(img, mouseX, mouseY);
-
-   // 幅と高さを指定するとリサイズしてくれる
-   image(img, 0, 0, 120, 90);
- }
-\end{lstlisting}
-
-
 \subsection*{ArduinoのInput/Outputまとめ}
 
 \subsubsection*{Digital Input/Output}
