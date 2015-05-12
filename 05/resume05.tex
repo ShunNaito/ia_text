@@ -88,10 +88,20 @@ PFont を用いて任意のフォントを使用するためには、フォン�
 Processing には簡単にフォントファイルを用意するための機能が備わっています。
 \begin{enumerate}
  \item メニューから Tools → Create Font を選択する
+ \begin{figure}[h]
+ \centering
+ \includegraphics[width=0.65\columnwidth]{img/font1.eps}
+\end{figure}
  \item 使いたいフォントを選択する
+ \begin{figure}[h]
+ \centering
+ \includegraphics[width=0.4\columnwidth]{img/font2-3.eps}
+\end{figure}
  \item フォントの名前が表示されているのを確認する (例、Serif-48.vlw ← コイツを覚えておくこと！)
  \item OK ボタンを押す
 \end{enumerate}
+
+
 これで、data フォルダ\footnote{作成しているプログラムと同じフォルダの中にある。フォントファイルや画像ファイルなど、プログラムから読み込みたいファイルなどはここに入れておくとよい。メニューの Sketch → Show Sketch Folder から作成しているプログラムが入っているフォルダを開ける。}
 の中にフォントファイルが生成されたと思います。
 loadFont() を用いて生成したフォントファイルを読み込むことで、好きなフォントを使うことができます。
