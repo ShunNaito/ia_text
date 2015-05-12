@@ -196,7 +196,7 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
  void setup() {
    size(300, 300);
 
-   arduino = new Arduino(this, Arduino.list()[0]);
+   arduino = new Arduino(this, Arduino.list()[5]);
    font = loadFont("Serif-48.vlw");
  }
 
@@ -241,37 +241,56 @@ Processingでは、矩形や円などの単純な図形と同様に画像を表�
  }
 \end{lstlisting}
 
-
-\section{圧力センサを使う}
-圧力センサとは、感圧面に加重することにより抵抗値が変化するセンサです。
-タクトスイッチなどの、ON/OFF を検出するスイッチとは違い、押した強さを検出できます。
-
-回路とプログラムは光センサのときと同様です。
-光センサを圧力センサに差し替えれば使えます。
-やってみましょう。
-
-圧力センサ (や曲げセンサなど) は、LED や抵抗、光りセンサなどの部品よりも\textbf{非常に高価なので壊さないように注意してください！}
-\begin{itemize}
- \item ピンが折れやすいので注意すること！
- \item ブレッドボードに差すときは、ピンに近い部分を持つこと (無理に差さないように)
- \item フィルム部分を曲げすぎないように
-\end{itemize}
-
-\subsubsection*{回路}
-先ほど\ref{subsection:getLightSensor}節で作成した回路とほとんど同じです。光センサを圧力センサに変えるだけです。
-
-\subsubsection*{プログラム}
-%アナログの入力に応じて画像のサイズが変化するプログラム
-%芦田
-
 \section{曲げセンサを使う}
 曲げセンサとは、センサ本体を曲げることにより抵抗値が変化するセンサです。
 プリント面を外側にした状態で曲げると抵抗値が増加します。
 1つの曲げセンサだけでは、片方向への曲げしか検出できませんが、2つを重ねて用いることによって、両方向の曲げを検出できます。
 
-曲げセンサも光センサや圧力センサと同様に使えます。
-すみませんが今回は前で見せるだけにします。
-% 前で見せますが高いのでおまえらにはやらねー。←糞ワロリッシュタイフーン
+\subsubsection*{回路}
+先ほど\ref{subsection:getLightSensor}節で作成した回路とほとんど同じです。光センサを曲げセンサに変えるだけです。
+
+\subsubsection*{プログラム}
+%アナログの入力に応じて画像のサイズが変化するプログラム
+\begin{lstlisting}
+import processing.serial.*;
+import cc.arduino.*;
+
+PImage img;
+
+Arduino arduino;
+int sensorPin = 0; // 曲げセンサを A0 番ピンに接続する場合
+
+void setup() {
+  size(500,500);
+  
+  arduino = new Arduino(this, Arduino.list()[5]);
+  img = loadImage("hogehoge.jpg"); // 使いたい画像ファイルの名前を指定
+}
+
+void draw() {
+  background(255);
+  
+  int sensorValue = arduino.analogRead(sensorPin);
+    
+  image(img, 0, 0, val, val);
+}
+\end{lstlisting}
+
+\section{圧力センサを使う}
+圧力センサとは、感圧面に加重することにより抵抗値が変化するセンサです。
+タクトスイッチなどの、ON/OFF を検出するスイッチとは違い、押した強さを検出できます。
+
+%回路とプログラムは光センサのときと同様です。
+
+圧力センサ (や曲げセンサなど) は、LED や抵抗、光りセンサなどの部品よりも\textbf{非常に高価なので壊さないように注意してください！}
+
+圧力センサも光センサや曲げセンサと同様に使えます。
+%すみませんが今回は前で見せるだけにします。
+\begin{itemize}
+ \item ピンが折れやすいので注意すること！
+ \item ブレッドボードに差すときは、ピンに近い部分を持つこと (無理に差さないように)
+ \item フィルム部分を曲げすぎないように
+\end{itemize}
 
 \begin{figure}[h!]
  \begin{minipage}{0.5\columnwidth}
