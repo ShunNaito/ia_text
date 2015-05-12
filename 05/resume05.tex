@@ -130,8 +130,6 @@ loadFont() を用いて生成したフォントファイルを読み込むこと
 このプログラムを実行すると、Processing のウィンドウの中に Interactive Art の文字列が描画されると思います。
 できましたか？
 
-\newpage
-
 \section{Analog Input}
 Arduino には、Analog Output と同様に Analog Input もあります。
 Analog Input を用いる場合は A0 〜 A5 ピンに接続してください。
@@ -146,7 +144,7 @@ Digital Input を用いたときのような、PINモードの設定は必要あ
 
 \begin{figure}[h!]
  \centering
- \includegraphics[width=0.6\columnwidth]{img/analog_input_pins.eps}
+ \includegraphics[width=0.4\columnwidth]{img/analog_input_pins.eps}
 \end{figure}
 
 \section{光センサを使う}
@@ -156,7 +154,7 @@ Digital Input を用いたときのような、PINモードの設定は必要あ
 
 実習で使う光センサは CdSセル (CdS: 硫酸カドミウム) を主成分とするものです。
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
  \begin{minipage}{0.666\columnwidth}
   \begin{itemize}
    \item \textbf{利点}
@@ -187,12 +185,13 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
 接続するピンに注意してください。
 
 \subsubsection*{回路}
-\begin{figure}[h!]
+\begin{figure}[htbp]
  \centering
  \includegraphics[width=0.4\columnwidth]{img/light_sensor_circuit.eps}
  \caption{光センサの回路図}
 \end{figure}
 
+\newpage
 
 \subsubsection*{プログラム}
 \begin{lstlisting}
@@ -220,8 +219,6 @@ Analog Input を使う場合は前述のように A0 〜 A5 ピンを用いる�
    text("sensor value: " + sensorValue, 32, 32);
  }
 \end{lstlisting}
-
-%\newpage
 
 \section{Processingで画像を表示する}
 Processingでは、矩形や円などの単純な図形と同様に画像を表示することができます。
@@ -294,6 +291,8 @@ void draw() {
 }
 \end{lstlisting}
 
+\newpage
+
 \section{圧力センサを使う}
 圧力センサとは、感圧面に加重することにより抵抗値が変化するセンサです。
 タクトスイッチなどの、ON/OFF を検出するスイッチとは違い、押した強さを検出できます。
@@ -303,7 +302,7 @@ void draw() {
 圧力センサも光センサや曲げセンサと同様に使えます。
 %すみませんが今回は前で見せるだけにします。
 
-\begin{figure}[h!]
+\begin{figure}[htbp]
  \begin{minipage}{0.5\columnwidth}
   \centering
   \includegraphics[width=\columnwidth]{img/pressure_sensor.eps}
