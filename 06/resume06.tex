@@ -71,8 +71,6 @@
 \section{本実習の目標}
 \begin{itemize}
  \item 赤外線センサを用いて、センサと物体との距離を測定する。
- \item モーターの回転速度を制御する。
- \item 測定した距離に応じてモータの回転数を制御する。
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,7 +111,7 @@
 
 
 \subsection*{プログラム}
-光センサを圧力センサに置き換えたときのように、プログラムは同じものが使えます。
+光センサを曲げセンサに置き換えたときのように、プログラムは同じものが使えます。
 \begin{lstlisting}
  import processing.serial.*;
  import cc.arduino.*;
@@ -176,150 +174,5 @@ map 関数を利用して、センサの値を実際の距離の計測値に変�
    text("distance: " + distance, 32, 64);
  }
 \end{lstlisting}
-
-
-\section{モーターの回転速度を制御する}
-モーターを制御する回路にはいくつか種類がありますが、今回は配線が簡単な電界効果トランジスタ (FET: Field effect transistor) を使用した回路を用います。
-モーターを回転させるには、比較的大きな電流が必要なため、Arduino の出力だけでは、モータを回転させ続けるパワーが足りません。
-そのため、外部電源からモーターに電力を供給し、Arduino や Processing で制御するために必要となるのが FET です。
-FET を用いることで、モーターに流す電流を制御し、モーターの回転数を変化させることができます (電流が多く流れると早く回る)。
-
-\subsection*{用いる部品}
-今回は簡単にするためにに外部電源を使わずにやってみます。
-各部品が手元にあるか確認してください。
-\begin{figure}[h!]
- \begin{minipage}{0.32\columnwidth}
-  \centering
-  \includegraphics[width=\columnwidth]{img/motor.eps}
-  \begin{center}
-   \textbf{モーター(RE-140RA)}
-  \end{center}
- \end{minipage}
- \begin{minipage}{0.32\columnwidth}
-  \centering
-  \includegraphics[width=\columnwidth]{img/fet.eps}
-  \begin{center}
-   \textbf{FET (2SK2232)}
-  \end{center}
- \end{minipage}
- \begin{minipage}{0.32\columnwidth}
-  \centering
-  \includegraphics[width=\columnwidth]{img/diode.eps}
-  \begin{center}
-   \textbf{ダイオード}
-  \end{center}
- \end{minipage}
-\end{figure}
-
-\newpage
-
-\subsection*{回路}
-\begin{figure}[h!]
- \centering
- \includegraphics[width=0.5\columnwidth]{img/motor_control_circuit.eps}
- \begin{center}
-  \textbf{モーター制御のための回路図}
- \end{center}
-\end{figure}
-
-\subsection*{プログラム}
-\begin{lstlisting}
-import processing.serial.*;
-import cc.arduino.*;
- 
-Arduino arduino;
-int motorPin = 9;   // モータが接続されたピン
- 
-void setup() {
-  size(255, 255);
-  arduino = new Arduino(this, Arduino.list()[6]);
-  arduino.pinMode(motorPin, Arduino.OUTPUT);   // モータのピンを出力に設定
-}
- 
-void draw() {
-  arduino.analogWrite(motorPin, mouseX);   // モータの回転数をセット
-}
-\end{lstlisting}
-
-
-\section{赤外線センサからの入力に基づいてモーターを制御する}
-今回の内容を踏まえて、
-赤外線センサを用いて取得した距離に基づいて、モーターの回転速度を制御してみよう。
-
-\newpage
-
-\section*{付録}
-\subsection*{ArduinoのInput/Outputまとめ}
-
-\subsubsection*{Digital Input/Output}
-\begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
-
- Arduino arduino;
-
- int inputPin  = 0;
- int outputPin = 1;
-
- void setup() {
-   // COMポートの指定は各々異なるので、
-   // デバイスマネージャなどで調べて変更する
-   arduino = new Arduino(this, Arduino.list()[0]);
-
-   // inputPinをInputに
-   ardino.pinMode(inputPin,  Arduino.INPUT);
-
-   // outputPinをOutputに 
-   ardino.pinMode(outputPin, Arduino.OUTPUT);
- }
-
- void draw() {
-   // Digital Input
-   // 戻り値: Arduino.HIGH or Arduino.LOW
-   int input = arduino.digitalRead(inputPin);
-
-   // Digital Output
-   // outputPinをHIGH(5V)に
-   arduino.digitalWrite(outputPin, Arduino.HIGH);
-   // outputPinをLOW(0V)に
-   arduino.digitalWrite(outputPin, Arduino.LOW);
- } 
-\end{lstlisting}
-
-
-\subsubsection*{Analog Input/Output}
-\begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
-
- Arduino arduino;
-
- int inputPin  = 0; // A0を使うときは0に
- int outputPin = 9; // PWMが使えるピンを選ぶ 
-
- void setup() {
-   arduino = new Arduino(this, Arduino.list()[0]);
-
-   // Analog Input を使うときは Pin Mode の設定は必要ない
-   // ardino.pinMode(inputPin,  Arduino.INPUT);
-
-   // outputPinをOutputに 
-   ardino.pinMode(outputPin, Arduino.OUTPUT);
- }
-
- void draw() {
-   // Analog Input
-   // 戻り値: 0〜1023の整数
-   int input = arduino.analogRead(inputPin);
-
-   // Analog Output
-   // Analogなので、outputする値を0〜255で指定
-   arduino.analogWrite(outputPin, 0);
-   arduino.analogWrite(outputPin, 127);
-   arduino.analogWrite(outputPin, 255);
- } 
-\end{lstlisting}
-
-
 
 \end{document}
