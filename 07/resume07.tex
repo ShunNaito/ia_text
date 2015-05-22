@@ -67,116 +67,14 @@
 \begin{document}
 
 % title
-\section*{\LARGE{第6講 応用編: 赤外線センサとモーターを連携させる}}
+\section*{\LARGE{第7講 応用編: 赤外線センサとモーターを連携させる}}
 \section{本実習の目標}
 \begin{itemize}
- \item 赤外線センサを用いて、センサと物体との距離を測定する。
  \item モーターの回転速度を制御する。
  \item 測定した距離に応じてモータの回転数を制御する。
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{赤外線センサを用いて距離を測る}
-物体との距離を非接触で測定するための方式には「超音波方式」と「赤外線方式」があります。
-赤外線センサは、(その名の通り)赤外線を用いて距離を測定しています。
-超音波センサは、物体から人体まで幅広いものの距離を検出することができます。
-
-今回利用する赤外線センサは、大体 10cm 〜 80cm までの距離を測定することができます。
-赤外線センサは、外光による影響を受けやすいため、使用する環境によっては注意する必要があります。
-赤外線センサよりも、もう少し長い距離を測定したい場合は、超音波センサを使うと良いでしょう。
-
-% 赤外線センサの図と配線の説明を入れる
-
-\begin{itembox}[l]{注意!}
- 赤外線センサは、とてもデリケートで配線の向きを間違えただけでも破損してしまいます。
- PC に接続する前に配線が正しいかどうか、もう一度確認すること！
-\end{itembox}
-
-\subsection*{回路}
-\begin{figure}[h!]
- \begin{minipage}{0.5\columnwidth}
-  \centering
-  \includegraphics[width=0.7\columnwidth]{img/ir_sensor.eps}
-  \begin{center}
-   \textbf{赤外線センサ}
-  \end{center}
- \end{minipage}
- \begin{minipage}{0.5\columnwidth}
-  \centering
-  \includegraphics[width=\columnwidth]{img/infrared_proximity_circuit.eps}
-  \begin{center}
-   \textbf{赤外線センサを用いた回路図}
-  \end{center}
- \end{minipage}
-\end{figure}
-
-
-\subsection*{プログラム}
-光センサを圧力センサに置き換えたときのように、プログラムは同じものが使えます。
-\begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
- 
- Arduino arduino;
- int sensorPin = 0;
- PFont font;
- 
- void setup() {
-   size(300, 300);
-
-   arduino = new Arduino(this, Arduino.list()[0]); 
-   font = loadFont("Serif-48.vlw"); // Create Fontを忘れずに！
- }
-
- void draw() {
-   background(255);
-
-   int val = arduino.analogRead(sensorPin);
-
-   textFont(font, 32);
-   fill(0);
-   text("val: " + val, 32, 32);
- }
-\end{lstlisting}
-
-
-\section{センサの値を実際の距離にマッピングする}
-距離センサと後述する map 関数を組み合わせると、電子ものさしを作ることができます。
-
-\subsection*{準備}
-距離センサの値を取得して、数値がどのように変化するのか観察してみましょう。
-また、センサの値が実際の距離とどのように対応付いているのをメモしておいてください。
-
-\subsection*{map関数}
-Processing には map 関数という機能が用意されています。
-\begin{lstlisting}
- float y = map(x, xBegin, xEnd, yBegin, yEnd);
-\end{lstlisting}
-map 関数は非常に便利なので覚えておくとよいでしょう。
-
-map 関数は x を範囲 xMin〜xMax から別の範囲 yMin〜yMax へ変換する関数です。
-map 関数を利用して、センサの値を実際の距離の計測値に変換してみましょう。
-
-\begin{lstlisting}
- void draw() {
-   background(255);
-
-   int val = arduino.analogRead(sensorPin);
-
-   // 例、
-   // 距離が
-   // 10cmのとき、センサの値が256で
-   // 80cmのとき、センサの値が768の場合
-   float distance = map(val, 255, 768, 10, 80);
-
-   textFont(font, 32);
-   fill(0);
-   text(" val: " + val, 32, 32);
-   text("distance: " + distance, 32, 64);
- }
-\end{lstlisting}
-
 
 \section{モーターの回転速度を制御する}
 モーターを制御する回路にはいくつか種類がありますが、今回は配線が簡単な電界効果トランジスタ (FET: Field effect transistor) を使用した回路を用います。
@@ -264,7 +162,7 @@ void draw() {
  void setup() {
    // COMポートの指定は各々異なるので、
    // デバイスマネージャなどで調べて変更する
-   arduino = new Arduino(this, Arduino.list()[0]);
+   arduino = new Arduino(this, Arduino.list()[5]);
 
    // inputPinをInputに
    ardino.pinMode(inputPin,  Arduino.INPUT);
