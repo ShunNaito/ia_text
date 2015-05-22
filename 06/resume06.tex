@@ -112,32 +112,6 @@
 
 \subsection*{プログラム}
 光センサを曲げセンサに置き換えたときのように、プログラムは同じものが使えます。
-\begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
- 
- Arduino arduino;
- int sensorPin = 0;
- PFont font;
- 
- void setup() {
-   size(300, 300);
-
-   arduino = new Arduino(this, Arduino.list()[0]); 
-   font = loadFont("Serif-48.vlw"); // Create Fontを忘れずに！
- }
-
- void draw() {
-   background(255);
-
-   int val = arduino.analogRead(sensorPin);
-
-   textFont(font, 32);
-   fill(0);
-   text("val: " + val, 32, 32);
- }
-\end{lstlisting}
-
 
 \section{センサの値を実際の距離にマッピングする}
 距離センサと後述する map 関数を組み合わせると、電子ものさしを作ることができます。
@@ -164,9 +138,9 @@ map 関数を利用して、センサの値を実際の距離の計測値に変�
 
    // 例、
    // 距離が
-   // 10cmのとき、センサの値が256で
-   // 80cmのとき、センサの値が768の場合
-   float distance = map(val, 255, 768, 10, 80);
+   // 10cmのとき、センサの値が768で
+   // 80cmのとき、センサの値が255の場合
+   float distance = map(val, 768, 255, 10, 80);
 
    textFont(font, 32);
    fill(0);
