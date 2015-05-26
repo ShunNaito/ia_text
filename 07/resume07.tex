@@ -80,7 +80,7 @@
 モーターを制御する回路にはいくつか種類がありますが、今回は配線が簡単な電界効果トランジスタ (FET: Field effect transistor) を使用した回路を用います。
 モーターを回転させるには、比較的大きな電流が必要なため、Arduino の出力だけでは、モータを回転させ続けるパワーが足りません。
 そのため、外部電源からモーターに電力を供給し、Arduino や Processing で制御するために必要となるのが FET です。
-FET を用いることで、モーターに流す電流を制御し、モーターの回転数を変化させることができます (電流が多く流れると早く回る)。
+FET を用いることで、モーターに流す電流を制御し、モーターの回転数を変化させることができます (電流が多く流れると早く回る)。また、FETは「金属酸化膜型 (MOSFET) 」「接合系 (JFET) 」「金属半導体系 (MSEFET) 」等がありますが、本実習ではMOSFET (Metal-oxide-semiconductor field-effect transistor) を用います。
 
 \subsection*{用いる部品}
 今回は簡単にするためにに外部電源を使わずにやってみます。
@@ -109,14 +109,27 @@ FET を用いることで、モーターに流す電流を制御し、モータ�
  \end{minipage}
 \end{figure}
 
-\newpage
+\subsection*{FETの役割}
+FETはゲート・ソース間に電圧を加えることで、ドレイン電流をコントロールできます。図\ref{fet_ID_VGS}に、FETによるゲート・ソース間の電圧とドレイン電流の関係性を示しています。これにより、大きな電流をコントロールしています。
+
+\subsection*{逆起電力}
+モータは電流供給を止めた時などに、慣性でモータが回転してしまうため、モーター自身から逆向きの電流・電圧が流れます。これを逆起電力といいます。この逆起電力によりFETが壊れます。そのため、モーターの両端にダイオードを用いて逆起電力を逃しています。
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[width=0.5\columnwidth]{img/fet_ID_VGS.eps}
+ \begin{center}
+  \caption{MOSFETのID--VGS特性}
+   \label{fet_ID_VGS}
+ \end{center}
+\end{figure}
 
 \subsection*{回路}
-\begin{figure}[h!]
+\begin{figure}[htbp]
  \centering
  \includegraphics[width=0.5\columnwidth]{img/motor_control_circuit.eps}
  \begin{center}
-  \textbf{モーター制御のための回路図}
+  \caption{モーター制御のための回路図}
  \end{center}
 \end{figure}
 
@@ -130,7 +143,7 @@ int motorPin = 9;   // モータが接続されたピン
  
 void setup() {
   size(255, 255);
-  arduino = new Arduino(this, Arduino.list()[6]);
+  arduino = new Arduino(this, Arduino.list()[5]);
   arduino.pinMode(motorPin, Arduino.OUTPUT);   // モータのピンを出力に設定
 }
  
