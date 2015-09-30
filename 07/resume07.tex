@@ -71,14 +71,14 @@
 \section{本実習の目標}
 \begin{itemize}
  \item モーターの回転速度を制御する。
- \item 測定した距離に応じてモータの回転数を制御する。
+ \item 測定した距離に応じてモーターの回転数を制御する。
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{モーターの回転速度を制御する}
 モーターを制御する回路にはいくつか種類がありますが、今回は配線が簡単な電界効果トランジスタ (FET: Field effect transistor) を使用した回路を用います。
-モーターを回転させるには、比較的大きな電流が必要なため、Arduino の出力だけでは、モータを回転させ続けるパワーが足りません。
+モーターを回転させるには、比較的大きな電流が必要なため、Arduino の出力だけでは、モーターを回転させ続けるパワーが足りません。
 そのため、外部電源からモーターに電力を供給し、Arduino や Processing で制御するために必要となるのが FET です。
 FET を用いることで、モーターに流す電流を制御し、モーターの回転数を変化させることができます (電流が多く流れると早く回る)。また、FETは「金属酸化膜型 (MOSFET) 」「接合系 (JFET) 」「金属半導体系 (MSEFET) 」等がありますが、本実習ではMOSFET (Metal-oxide-semiconductor field-effect transistor) を用います。
 
@@ -113,7 +113,7 @@ FET を用いることで、モーターに流す電流を制御し、モータ�
 FETはゲート・ソース間に電圧を加えることで、ドレイン電流をコントロールできます。図\ref{fet_ID_VGS}に、FETによるゲート・ソース間の電圧とドレイン電流の関係性を示しています。これにより、大きな電流をコントロールしています。
 
 \subsection*{逆起電力}
-モータは電流供給を止めた時などに、慣性でモータが回転してしまうため、モーター自身から逆向きの電流・電圧が流れます。これを逆起電力といいます。この逆起電力によりFETが壊れます。そのため、モーターの両端にダイオードを用いて逆起電力を逃しています。
+モーターは電流供給を止めた時などに、慣性でモータが回転してしまうため、モーター自身から逆向きの電流・電圧が流れます。これを逆起電力といいます。この逆起電力によりFETが壊れます。そのため、モーターの両端にダイオードを用いて逆起電力を逃しています。
 
 \begin{figure}[htbp]
  \centering
@@ -156,81 +156,4 @@ void draw() {
 \section{赤外線センサからの入力に基づいてモーターを制御する}
 今回の内容を踏まえて、
 赤外線センサを用いて取得した距離に基づいて、モーターの回転速度を制御してみよう。
-
-\newpage
-
-\section*{付録}
-\subsection*{ArduinoのInput/Outputまとめ}
-
-\subsubsection*{Digital Input/Output}
-\begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
-
- Arduino arduino;
-
- int inputPin  = 0;
- int outputPin = 1;
-
- void setup() {
-   // COMポートの指定は各々異なるので、
-   // デバイスマネージャなどで調べて変更する
-   arduino = new Arduino(this, Arduino.list()[5]);
-
-   // inputPinをInputに
-   ardino.pinMode(inputPin,  Arduino.INPUT);
-
-   // outputPinをOutputに 
-   ardino.pinMode(outputPin, Arduino.OUTPUT);
- }
-
- void draw() {
-   // Digital Input
-   // 戻り値: Arduino.HIGH or Arduino.LOW
-   int input = arduino.digitalRead(inputPin);
-
-   // Digital Output
-   // outputPinをHIGH(5V)に
-   arduino.digitalWrite(outputPin, Arduino.HIGH);
-   // outputPinをLOW(0V)に
-   arduino.digitalWrite(outputPin, Arduino.LOW);
- } 
-\end{lstlisting}
-
-
-\subsubsection*{Analog Input/Output}
-\begin{lstlisting}
- import processing.serial.*;
- import cc.arduino.*;
-
- Arduino arduino;
-
- int inputPin  = 0; // A0を使うときは0に
- int outputPin = 9; // PWMが使えるピンを選ぶ 
-
- void setup() {
-   arduino = new Arduino(this, Arduino.list()[0]);
-
-   // Analog Input を使うときは Pin Mode の設定は必要ない
-   // ardino.pinMode(inputPin,  Arduino.INPUT);
-
-   // outputPinをOutputに 
-   ardino.pinMode(outputPin, Arduino.OUTPUT);
- }
-
- void draw() {
-   // Analog Input
-   // 戻り値: 0〜1023の整数
-   int input = arduino.analogRead(inputPin);
-
-   // Analog Output
-   // Analogなので、outputする値を0〜255で指定
-   arduino.analogWrite(outputPin, 0);
-   arduino.analogWrite(outputPin, 127);
-   arduino.analogWrite(outputPin, 255);
- } 
-\end{lstlisting}
-
-
-
 \end{document}
